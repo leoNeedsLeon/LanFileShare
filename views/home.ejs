@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		a{
+			color : red;
+			text-decoration: none;
+			transition: width 1s;
+		}
+		a:hover{
+			color:darkblue;
+			background-color: pink;
+			font-size: 30px;
+			transition-timing-function: ease-in-out;
+		}
+	</style>
+</head>
+<body>
+	<ul id="lis">
+		<% fileNames.forEach(function(file){%>
+		<% var lin = "/download/"+file; %>
+		<li><a href="<%=lin%>"><%=file%></a></li>
+		<%})%>
+	</ul>
+	<hr>
+	<form method="post" enctype="multipart/form-data" action="/uploadfile">
+		<input type="file" name="newfile">
+		<button>Upload</button>
+	</form>
+<footer style="bottom: 0px"><h1><b>A PKG CREATION.</b></h1></footer>
+</body>
+</html>

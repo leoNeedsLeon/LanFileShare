@@ -1,0 +1,29 @@
+{
+  "name": "gsaver",
+  "version": "1.0.0",
+  "description": "a tool to share files in LAN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leoNeedsLeon/LanFileShare.git"
+  },
+  "keywords": [
+    "lan",
+    "server",
+    "nodejs",
+    "files",
+    "share",
+    "chat",
+    "upload",
+    "download"
+  ],
+  "author": "PKG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leoNeedsLeon/LanFileShare/issues"
+  },
+  "homepage": "https://github.com/leoNeedsLeon/LanFileShare#readme"
+}
