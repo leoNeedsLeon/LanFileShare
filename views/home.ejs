@@ -2,32 +2,78 @@
 <html>
 <head>
 	<title></title>
-	<style type="text/css">
-		a{
-			color : red;
-			text-decoration: none;
-			transition: width 1s;
-		}
-		a:hover{
-			color:darkblue;
-			background-color: pink;
-			font-size: 30px;
-			transition-timing-function: ease-in-out;
-		}
-		th{
-			border: 2px green solid;
-		}
+  <style>
+	* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+     }
+
+   a{
+       color : red;
+       text-decoration: none;
+       transition: width 1s;
+   }
+
+   a:hover{
+       color:darkblue;
+       background-color: pink;
+       /*font-size: 30px;
+       transition-timing-function: ease-in-out;*/
+   }
+
+   th{
+       border: 2px green solid;
+   }
+
+   #main_left_div{
+       position: relative;
+       top: 0px;
+       left: 0px;
+       width: 70%;
+       height: 80%;
+       border: 2px solid black;
+   }
+
+   .foot{
+       position: absolute;
+       bottom: 0px;
+       height:20%;
+   }
+	 
+   #main_right_div{
+       position: absolute;
+   
+       top: 0%;
+       left: 70%;
+       width: 30%;
+       height: 100%;
+       border: 2px solid rgb(236, 0, 0);
+   }
+   #chatForm{
+       position: absolute;
+       bottom:15px;
+       width:200px;
+   }
+    #messages li:nth-child(odd) { 
+        background: rgb(137, 246, 246); 
+        }
+    ul{
+        list-style-type:none;
+    }
 	</style>
 </head>
 <body>
+	<div id="main_div" style="position:absolute;border:2px solid black;height:100%;left:0%;width:99%">
+<div id="main_left_div">
 <table
 	<tr>
-<th width="500px">File name </th>
+<th width="700px">File name </th>
 <th> Date created</th>
 	</tr>
 	<!ejs code for displaying file info in the page>
 		<% fileinfo.forEach(function(file){%>
-		<% var lin = "/download/"+file.filename; %>
+		<% var lin = "/"+file.filename; %>
 		<tr>
 		<td><li><a href="<%=lin%>"><%=file.filename%></a></li></td><td><%=file.filetime%></td></tr>
 		<%})%>
@@ -39,7 +85,35 @@
 		<input type="file" name="newfile" multiple>
 		<button>Upload</button>
 	</form>
-<footer style="bottom: 0px"><h1><b>A PKG CREATION.</b></h1></footer>
-
+</div>	
+<div id = "main_right_div">
+		<div id="messages_display_div">
+		<ul id="messages">
+		</ul>
+		</div>
+		<form action="" id="chatForm">
+		  <input id="m" autocomplete="off" /><button>Send</button>
+		</form>
+</div>
+<div class = "foot">
+<footer style="bottom: 0px"></footer>
+	<B>Usage instructions:</B> Refresh twice to see changes after file upload.
+	</div>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+  $(function () {
+	var socket = io();
+	$('form').submit(function(){
+	  socket.emit('chat message', $('#m').val());
+	  $('#m').val('');
+	  return false;
+	});
+	socket.on('chat message', function(msg){
+	  $('#messages').append($('<li>').text(msg));
+	});
+  });
+</script>
 </body>
 </html>
