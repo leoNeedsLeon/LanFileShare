@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+     }
+   a{
+       color : red;
+       text-decoration: none;
+       transition: width 1s;
+   }
+   a:hover{
+       color:darkblue;
+       background-color: pink;
+       font-size: 30px;
+       transition-timing-function: ease-in-out;
+   }
+   th{
+       border: 2px green solid;
+   }
+   #main_left_div{
+       position: relative;
+       top: 0px;
+       left: 0px;
+       width: 70%;
+       height: 80%;
+       border: 2px solid black;
+   }
+   .foot{
+       position: absolute;
+       bottom: 0px;
+       height:20%;
+   }
+   #main_right_div{
+       position: absolute;
+   
+       top: 0%;
+       left: 70%;
+       width: 30%;
+       height: 100%;
+       border: 2px solid rgb(236, 0, 0);
+   }
+   #chatForm{
+       position: absolute;
+       bottom:15px;
+       width:200px;
+   }
+    #messages li:nth-child(odd) { 
+        background: rgb(137, 246, 246); 
+        }
+    ul{
+        list-style-type:none;
+    }
+  
+        

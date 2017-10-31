@@ -1,15 +1,16 @@
 var express = require("express");
 var fs = require('fs');
 var multer  = require('multer');
-
 var app =  express();
+var http = require('http').Server(app);
+var io = require('socket.io')(server);
 
 app.set("view engine","ejs");
 
 var fileinfo = [];
 var dir = __dirname +"\\files\\";
 
-//storage for multer helps decide destination and filename
+//storage for multer with  destination and filename
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, dir);
@@ -20,8 +21,8 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({storage: storage}).array('newfile',20);
-
+var upload = multer({storage: storage}).array('newfile',50);
+		
 //home page checks for files in the files folder and passes file info to home.ejs
 app.get("/",function(req,res){
 	//console.log(dir);
@@ -41,16 +42,25 @@ app.get("/",function(req,res){
 	  	 });
 
   });
-	//passing fileinfo to be displayed in home page in the next line
+	//passing fileinfo to be displayed in home page
  	res.render("home",{fileinfo:fileinfo});
 });
 
+io.on('connection', function(socket){
+	socket.on('chat message', function(msg){
+		console.log("message recieved" + msg +" " + socket.request.connection.remoteAddress);
+		io.emit('chat message', msg);
+	});
+});
+
 // route to download files
-app.get('/download/:namefile', function(req, res){
+app.get('/:namefile', function(req, res){
 //  console.log("hey man" + req.params.namefile);
   var file = dir + req.params.namefile;
-  var filestream = fs.createReadStream(file);
-  filestream.pipe(res);
+  // var filestream = fs.createReadStream(file);
+	// filestream.pipe(res);
+	console.log("Ip:" + req.ip + " for " + file);
+	res.download(file);
 });
 
 // function to remove spaces from file names
@@ -70,13 +80,11 @@ app.post("/uploadfile",function(req,res){
 	}
 	console.log(req.files);
 	res.end('Your Files Uploaded');
-	console.log('Photo Uploaded');
-})
-
-
-
+});
 });
 
-app.listen(3000, function(){
-	console.log("Serving on port 3000");
+var port = 8000;
+
+var server = app.listen(port, function(){
+	console.log('listening on *:'  + port);
 });
